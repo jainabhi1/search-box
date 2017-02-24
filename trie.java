@@ -1,5 +1,5 @@
 package hello;
-
+import java.util.*;
 public class trie {
 	private node root;
 	public trie()
@@ -37,5 +37,14 @@ public class trie {
 			return  true;
 		else
 			return false;
+	}
+	public void prefixhelper()
+	{
+		
+	}
+	public List<String> prefix()
+	{
+		ArrayList<String> As=new ArrayList<>();
+		return As;
 	}
 }
