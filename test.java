@@ -6,7 +6,7 @@ import java.nio.file.*;
 public class test {
 	public static void main(String [] args) throws IOException,InterruptedException
 	{
-		HashMap<String,ArrayList<String>> hm=new HashMap<>();
+		HashMap<String,Set<String> > hm=new HashMap<>();
 		trie t=new trie();
 		try
 		{
@@ -34,21 +34,32 @@ public class test {
 			t.add(r);
 			if(hm.get(r)==null)
 			{
-				hm.put(r, new ArrayList<>());
+				hm.put(r, new HashSet<>());
 			}
 			hm.get(r).add(line);
 		}
 		reader.close();
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		String s=br.readLine();
-		if(t.search(s)==true)
+		ArrayList<String> As=t.prefix(s);
+		if(As.isEmpty())
+			System.out.println("no file found");
+		else
 		{
-			System.out.println("found");
-			ArrayList<String> qq=hm.get(s);
-			for(int i=0;i<qq.size();i++)
+			for(int i=0;i<As.size();i++)
 			{
-				System.out.println(qq.get(i));
+				String r=As.get(i);
+				if(hm.get(r)!=null)
+				{
+					Set<String> boo=hm.get(r);
+					for(String ss:boo)
+					{
+						System.out.println(ss);
+					}
+				}
 			}
+			
 		}
+		
 	}
 }

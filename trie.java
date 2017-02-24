@@ -38,13 +38,40 @@ public class trie {
 		else
 			return false;
 	}
-	public void prefixhelper()
+	public void prefixhelper(node temp,ArrayList<String> As,String s)
 	{
-		
+		if(temp.leaf==true)
+		{
+			if(s!="")
+				As.add(s);
+			s=s.substring(0,s.length()-1);
+			return;
+		}
+		for(int i=0;i<256;i++)
+		{
+			if(temp.children.get((char)i)!=null)
+			{
+				prefixhelper(temp.children.get((char)i),As,s+(char)(i));
+			}
+		}
 	}
-	public List<String> prefix()
+	public ArrayList<String> prefix(String str)
 	{
 		ArrayList<String> As=new ArrayList<>();
+		node temp=root;
+		
+		for(int i=0;i<str.length();i++)
+		{
+			if(temp.children.get(str.charAt(i))!=null)
+				temp=temp.children.get(str.charAt(i));
+			else
+			{
+				return As;
+			}
+		}
+		if(temp==root)
+			return As;
+		prefixhelper(temp,As,str);
 		return As;
 	}
 }
