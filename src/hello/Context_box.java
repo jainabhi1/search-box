@@ -307,14 +307,67 @@ public class Context_box {
 		return result;
 		
 	}
+	ArrayList<Pair<String,ArrayList<String> > > mainsearch2(String str)
+	{
+		ArrayList<Pair<String,ArrayList<String> > > result = new ArrayList<Pair<String,ArrayList<String> > >();
+		String words[] = str.split(" ");
+		int size = words.length;
+		if(size == 0)
+			return null;
+		for(int i = size-1 ; i >=0 ; i--)
+		{
+			int x = 0;
+			int y = x+i;
+			while(y < size)
+			{
+				String qq = "";
+				for(int k = x ; k <= y ; k++)
+				{
+					qq += words[k]+ " ";
+				}
+				if(qq.length() != 0)
+					qq = qq.substring(0, qq.length()-1);
+				int len = y-x+1;
+				Pair<String,ArrayList<String> > pi;
+				if(len == 4)
+				{
+					pi = new Pair<String,ArrayList<String> >(qq,search4(qq));
+					result.add(pi);
+				}
+				else if(len == 3)
+				{
+					pi = new Pair<String,ArrayList<String> >(qq,search3(qq));
+					result.add(pi);
+				}
+				else if(len == 2)
+				{
+					pi = new Pair<String,ArrayList<String> >(qq,search2(qq));
+					result.add(pi);
+				}
+				else if(len == 1)
+				{
+					pi = new Pair<String,ArrayList<String> >(qq,search(qq));
+					result.add(pi);
+				}
+				x++;
+				y++;
+			}
+			
+		}
+		return result;
+	}
 	/*public static void main(String[] args)
 	{
 		Context_box c = new Context_box();
-		System.out.println("uououo");
-		ArrayList as = c.mainsearch("using namespace std;");
-		for(Object o : as)
+		ArrayList<Pair<String,ArrayList<String> > > as = c.mainsearch2("using namespace std;");
+		for(Pair<String,ArrayList<String> > pp : as)
 		{
-			System.out.println((String)o);
+			System.out.println("showing results for "+ pp.getFirst() + "---------------");
+			ArrayList<String> result = pp.getSecond();
+			for(String ppp : result)
+			{
+				System.out.println(ppp);
+			}
 		}
 	}*/
 }
