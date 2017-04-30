@@ -15,6 +15,10 @@ class Pair<T,V>
 {
 	private T first;
 	private V second;
+	Pair()
+	{
+		
+	}
 	Pair(T first,V second)
 	{
 		this.first=first;
@@ -27,6 +31,10 @@ class Pair<T,V>
 	V getSecond()
 	{
 		return second;
+	}
+	void setFirst(T obj1)
+	{
+		first=obj1;
 	}
 	void setSecond(V obj1)
 	{
@@ -307,10 +315,12 @@ public class search_box
 				while((line=reader.readLine())!=null)
 				{
 					//System.out.println(line);
+			//		line = line.toLowerCase();
 					try
 					{
 					Path p = Paths.get(line);
 					String r=p.getFileName().toString();
+					r = r.toLowerCase();
 					hm.insert(r, line);
 					//System.out.println(r);
 					}
@@ -321,12 +331,12 @@ public class search_box
 					//hm.insert(r, line);
 					
 				}
-				file=new File("/home/abhi/workspace1/hello/WebContent/text_files_names.txt");
+				file=new File("/home/abhi/workspace1/hello/WebContent/text_file_names.txt");
 				reader=new BufferedReader(new InputStreamReader(
 				new FileInputStream (file), encoding));
 				while((line=reader.readLine())!=null)
 				{
-					
+					//line = line.toLowerCase();
 					try
 					{
 						t.add(line);
@@ -356,7 +366,7 @@ public class search_box
 			{
 				String qq = (String)o;
 				String pp = (String)hm.getValue(qq);
-				result2.add(qq+":"+"hello/"+pp);
+				result2.add("hello/"+pp);
 			}
 			catch(Exception e)
 			{
@@ -367,3 +377,4 @@ public class search_box
 	}
 	
 }
+

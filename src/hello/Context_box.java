@@ -24,7 +24,7 @@ public class Context_box {
 			br = new BufferedReader(in);
 			while((line = br.readLine()) != null )
 			{
-				
+				//line = line.toLowerCase();
 				count++;
 				hm2.put(count, line);
 				FileReader in1 = new FileReader("/home/abhi/workspace1/hello/WebContent/"+line);
@@ -33,6 +33,7 @@ public class Context_box {
 				int count1 = 0;
 				while((line1 = br1.readLine()) != null )
 				{
+					line1 = line1.toLowerCase();
 					String tokens[] = line1.split(" ");
 					int size = tokens.length;
 
@@ -43,6 +44,7 @@ public class Context_box {
 
 						if(hm.containsKey(tokens[i]) == false )
 						{
+							tokens[i] = tokens[i].replaceAll("[^a-zA-Z0-9]", "");
 							/* we are only incrementing count word is not a stopword*/
 							count1++;
 							if(hm1.containsKey(tokens[i]) == false)
@@ -319,6 +321,10 @@ public class Context_box {
 		ArrayList<Pair<String,ArrayList<String> > > result = new ArrayList<Pair<String,ArrayList<String> > >();
 		String words[] = str.split(" ");
 		int size = words.length;
+		for(int i = 0 ; i < size ; i++)
+		{
+			words[i] = words[i].replaceAll("[^a-zA-Z0-9]", "");
+		}
 		if(size == 0)
 			return null;
 		for(int i = size-1 ; i >=0 ; i--)
@@ -378,3 +384,4 @@ public class Context_box {
 		}
 	}*/
 }
+

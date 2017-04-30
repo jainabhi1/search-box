@@ -129,7 +129,7 @@ public class mainbk{
 	ArrayList<String> lis = new ArrayList<>();
 	mainbk() throws IOException
 	{
-		File file=new File("/home/abhi/workspace1/hello/WebContent/text_files_names.txt");
+		File file=new File("/home/abhi/workspace1/hello/WebContent/text_file_names.txt");
 		String encoding ="UTF-8";
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 		new FileInputStream (file), encoding));
