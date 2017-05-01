@@ -47,7 +47,7 @@ public class hello1 extends HttpServlet
 			//System.out.println(s);
 		//	String x[] = s.split(":");
 			//System.out.println(x[1]);
-		//	if(pp.getSecond().size() != 0)
+			if(pp.getSecond().size() != 0)
 				response.getWriter().println("showing results for " + pp.getFirst() + "---------------");
 			for(String ss : pp.getSecond())
 			{

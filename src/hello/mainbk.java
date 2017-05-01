@@ -139,7 +139,8 @@ public class mainbk{
 			//System.out.println(line);
 			try
 			{
-			bk.insert(line);
+				line = line.substring(0, line.length()-4);
+				bk.insert(line);
 			}
 			catch(Exception e)
 			{

@@ -41,10 +41,10 @@ public class Context_box {
 					for(int i=0; i < size; i++)
 					{
 						
-
+						tokens[i] = tokens[i].replaceAll("[^a-z A-Z0-9]", "");
 						if(hm.containsKey(tokens[i]) == false )
 						{
-							tokens[i] = tokens[i].replaceAll("[^a-zA-Z0-9]", "");
+							
 							/* we are only incrementing count word is not a stopword*/
 							count1++;
 							if(hm1.containsKey(tokens[i]) == false)
@@ -323,7 +323,7 @@ public class Context_box {
 		int size = words.length;
 		for(int i = 0 ; i < size ; i++)
 		{
-			words[i] = words[i].replaceAll("[^a-zA-Z0-9]", "");
+			words[i] = words[i].replaceAll("[^a-z A-Z0-9]", "");
 		}
 		if(size == 0)
 			return null;
@@ -344,23 +344,39 @@ public class Context_box {
 				Pair<String,ArrayList<String> > pi;
 				if(len == 4)
 				{
-					pi = new Pair<String,ArrayList<String> >(qq,search4(qq));
-					result.add(pi);
+					ArrayList<String> as = search4(qq);
+					if(as.size() != 0)
+					{
+						pi = new Pair<String,ArrayList<String> >(qq,as);
+						result.add(pi);
+					}
 				}
 				else if(len == 3)
 				{
-					pi = new Pair<String,ArrayList<String> >(qq,search3(qq));
-					result.add(pi);
+					ArrayList<String> as = search3(qq);
+					if(as.size() != 0)
+					{
+						pi = new Pair<String,ArrayList<String> >(qq,as);
+						result.add(pi);
+					}
 				}
 				else if(len == 2)
 				{
-					pi = new Pair<String,ArrayList<String> >(qq,search2(qq));
-					result.add(pi);
+					ArrayList<String> as = search2(qq);
+					if(as.size() != 0)
+					{
+						pi = new Pair<String,ArrayList<String> >(qq,as);
+						result.add(pi);
+					}
 				}
 				else if(len == 1)
 				{
-					pi = new Pair<String,ArrayList<String> >(qq,search(qq));
-					result.add(pi);
+					ArrayList<String> as = search(qq);
+					if(as.size() != 0)
+					{
+						pi = new Pair<String,ArrayList<String> >(qq,as);
+						result.add(pi);
+					}
 				}
 				x++;
 				y++;
