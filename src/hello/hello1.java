@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,56 +10,51 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.*;
+import java.io.*;
+
 
 @WebServlet(name = "Foo2", urlPatterns = {"/foo1"})
 public class hello1 extends HttpServlet 
 {
 	private static final long serialVersionUID = 2L;
-	search_box sbox;
 	Context_box c;
 	mainbk b;
 	public hello1() throws IOException {
 		super();
-		sbox = new search_box();
-		c = new Context_box();
-		b = new mainbk();
+		try
+		{	
+			b = new mainbk();
+			c = new Context_box();
+		}
+		catch(Exception e)
+		{
+			
+		}
         System.out.println("yoyoyoy");
     }
-	void show(HttpServletRequest request, HttpServletResponse response , ArrayList<String> r4,
-			ArrayList<Pair<String,ArrayList<String> > > r5) throws IOException
+	void show1(HttpServletRequest request, HttpServletResponse response, 
+			ArrayList<Pair<String,ArrayList<String> > > r5)
+	throws IOException
 	{
-		Set<String> se = new HashSet<String>();
-		response.getWriter().println("<ul>Result</ul>");
-		for(String s:r4)
-		{
-			//System.out.println(s);
-		//	String x[] = s.split(":");
-			//System.out.println(x[1]);
-			String xx = "<li><a href=\"/"+ s + "\">" +s+ "</a></li>";
-			//System.out.println(xx);
-			response.getWriter().println(xx);
-			//System.out.println(s);
-		}
-		
+		int flag = 0;
 		for(Pair<String,ArrayList<String> > pp:r5)
 		{
-			//System.out.println(s);
-		//	String x[] = s.split(":");
-			//System.out.println(x[1]);
-			if(pp.getSecond().size() != 0)
-				response.getWriter().println("showing results for " + pp.getFirst() + "---------------");
+/////////////////////////////////////////////			if(pp.getSecond().size() != 0)
+			//	response.getWriter().println("showing results for " + pp.getFirst() + "---------------");
 			for(String ss : pp.getSecond())
 			{
 				String xx;
-				//if(se.contains(ss) == false)
-				//{	
-					xx = "<li><a href=\"/"+ ss + "\">" +ss+ "</a></li>";
-					response.getWriter().println(xx);
-					//se.add(ss);
-				//}
-				//System.out.println(s);
+				xx = "<li><a href=\"/"+ ss + "\">" +ss+ "</a></li>";
+				response.getWriter().write(ss+' ');
+				flag = 1;
+				
 			}
 	
+		}
+		if(flag == 0)
+		{
+			response.getWriter().write("noresult");
 		}
 		
 	}
@@ -72,33 +66,41 @@ public class hello1 extends HttpServlet
 			String search = request.getParameter("text");
 			System.out.println(search);
 			search = search.toLowerCase();
-			ArrayList<String> r4 = sbox.search(search);
-			ArrayList<Pair<String,ArrayList<String> > > r5 = c.mainsearch2(search);
-			response.setContentType("text/html");
-			//response.sendRedirect("boo1.html");
-			if(r4.size() ==0 && r5.size() == 0)
+			//System.out.println(request.getParameter("type"));
+			String str = request.getParameter("type");
+			if(str.equals("sb"))
 			{
-				ArrayList<String> as = b.search(search);
-				if(as.size() == 0)
-				{
-					response.getWriter().println("no results");
-				}
-				else
-				{
-					for(String s : as)
-					{
-						response.getWriter().println("showing results for " + s + "\n");
-						r4 = sbox.search(s);
-						r5 = c.mainsearch2(s);
-						show(request,response,r4,r5);
-					}
-				}
+				URL oracle = new URL("http://192.168.43.124:8080/ss/sss?text="+search);
+		        URLConnection yc = oracle.openConnection();
+		        BufferedReader in = new BufferedReader(new InputStreamReader(
+		                                yc.getInputStream()));
+		        String inputLine;
+		        if((inputLine = in.readLine()) == null) 
+		        {	
+		        	//System.out.println("dc");
+		        	ArrayList<String> as = b.search(search);
+		        	if(as.size() == 0)
+		        	{
+		        		response.getWriter().println("NO Resuls");
+		        	}
+		        	else
+		        	{
+		        		String str1 = "http://192.168.43.156:8080/Instant_Search/foo2?text="+(String)as.get(0);
+		        		response.sendRedirect(str1);
+		        	}
+		        }
+		        else
+		        {
+		        	String str1 = "http://192.168.43.156:8080/Instant_Search/foo2?text="+search;
+		        	response.sendRedirect(str1);
+		        }
 			}
 			else
 			{
-				show(request,response,r4,r5);
+				ArrayList<Pair<String,ArrayList<String> > > r5 = c.mainsearch2(search);
+				show1(request,response,r5);
 			}
-			
+							
 		}
 		catch(Exception e)
 		{
@@ -106,9 +108,9 @@ public class hello1 extends HttpServlet
 		}
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		show(request, response);
-		//String json = new Gson(); 
-		
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
